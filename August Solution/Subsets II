@@ -1,0 +1,22 @@
+class Solution {
+public:
+set<vector<int>>ans;
+void func(vector<int>num,int i,int n,vector<int>res)
+{
+  if(i<=n)
+  ans.insert(res);
+  for(int j=i;j<n;j++)
+  {
+    res.push_back(num[j]);
+    func(num,j+1,n,res);
+    res.pop_back();
+  }
+}
+vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(),nums.end());
+    vector<int>res;
+    func(nums,0,nums.size(),res);
+    vector<vector<int>>p(ans.begin(),ans.end());
+    return p;
+    }
+};
