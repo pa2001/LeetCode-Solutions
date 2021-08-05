@@ -1,0 +1,34 @@
+method 1:(maths)
+alex need to play optimally and and that is why he will always choose whatever suits him. As for example :[3,2,10,4]
+here , we may think that alex will first choose 4 and then our resulting array would be->[3,2,10] then lee will play optimally and choose 10 and so on.
+but alex need to play for himself as well as he also have to make lee lose in the match by choosing such a choice that in lee's round he can't choose best one.
+and that is why he will choose 3 and our resulting array become->[2,10,4]
+here if lee play optimally then also he will pick 4 and alex automatically get 10 that is the highest one....
+So alex will win in each and every case...
+class Solution {
+public:
+    bool stoneGame(vector<int>& piles) {
+        return true;
+    }
+};
+method 2:(dp)
+in this method we are playing optimally without caring about alex and lee. 
+so we are choosing both first and last entry from the piles and 
+recurse on the remainning piles so that the opponent can also play optimally
+for themselves.
+class Solution {
+public:
+    int dp[1001][1001];
+    int solve(int i,int j,vector<int>&piles)
+    {
+        if(i==j)
+            return dp[i][j]=piles[i];
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        return dp[i][j]=max(piles[i]-solve(i+1,j,piles),piles[j]-solve(i,j-1,piles));
+    }
+    bool stoneGame(vector<int>& piles) {
+        memset(dp,-1,sizeof(dp));
+        return solve(0,piles.size()-1,piles)>0;
+    }
+};
