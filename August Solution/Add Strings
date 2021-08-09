@@ -1,0 +1,40 @@
+class Solution {
+public:
+/*
+logic:first you need to check the length of the two strings if they aren't equal then append 0's at the start of the shorter string to have same length.
+then you need to add. For that you need to initialise two variables sum and carry where sum will calculate the sum of character and carry will check if sum > 9.
+you need to start from the last most bit as you do in maths rest code is self explanatory.
+*/
+    string addStrings(string num1, string num2) {
+        //initialise ans to store answer and return at last.
+        string ans="";
+        //initialise carry and sum as you do in maths
+        int carry=0,sum=0;
+        // append 0's if there is difference in the length of string
+        int n=num1.size(),m=num2.size();
+        if(n>m)
+        {
+            while(n>m)
+                num2="0"+num2,m++;
+        }
+        else if(m>n)
+        {
+            while(m>n)
+                num1="0"+num1,n++;
+        }
+        //simple addition as you do in maths
+        for(int i=m-1;i>=0;i--)
+        {
+            sum=(num1[i]-'0')+(num2[i]-'0')+carry;
+            if(sum>9)
+                carry=sum/10;
+            else
+                carry=0;
+            ans=to_string(sum%10)+ans;
+        }
+        //check if carry is not zero then add it to ans and return ans
+        if(carry!=0)
+            ans=to_string(carry)+ans;
+        return ans;
+    }
+};
