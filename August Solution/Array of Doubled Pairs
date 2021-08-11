@@ -1,0 +1,30 @@
+class Solution {
+public:
+    /*
+Logic:you need to maintain a map so as to have count of each number of arr. Now first check if number and its double both exsist then decrease the count of each by one.At last you need to check if there is some number left then its count must not be equal to 0 so if it is so then return false else true.In the whole process you need to sort the array because if you won't do so then some pair will be left .so you need to sirt in ascending order and then start matching from the beginning.
+    */
+    bool canReorderDoubled(vector<int>& arr) {
+        //sort array
+        sort(arr.begin(),arr.end());
+        //initialize map to count frequency
+        unordered_map<int,int>count;
+        for(int i=0;i<arr.size();i++)
+            count[arr[i]]++;
+        //if both number and its double exsist then only decrease both of them by one
+        for(int i=0;i<arr.size();i++)
+        {
+            if(count[arr[i]]&&count[2*arr[i]])
+            {
+                count[arr[i]]--;
+                count[2*arr[i]]--;
+            }
+        }
+        //if map is empty return true else return false.
+        for(auto x:count)
+        {
+            if(x.second!=0)
+                return false;
+        }
+        return true;
+    }
+};
