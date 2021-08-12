@@ -1,1 +1,30 @@
-
+class Solution {
+public:
+    /*
+Logic:First you need to sort the string because rach anagram on sorting give same string so just sort the string ans maintain a map to store the index value of particular string so thet when you group the anagrams of that string then you gropu them together ....
+Now fill the vector of vector ans accourding to the index you put in map.
+    */    
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        //maintain a map to store the index value of particular string 
+        unordered_map<string,int>mymap;
+        //initialize as index i
+        int i=0;
+        for(auto x:strs)
+        {
+            string k=x;
+            sort(k.begin(),k.end());
+            //if string is not present in map then put the current index value.
+            if(mymap.find(k)==mymap.end())
+                mymap[k]=i++;
+        }int size=mymap.size();
+        vector<vector<string>>ans(size);
+        for(auto x:strs)
+        {
+            string k=x;
+            sort(k.begin(),k.end());
+            //fill ans vector according to map
+            ans[mymap[k]].push_back(x);
+        }
+        return ans;
+    }
+};
