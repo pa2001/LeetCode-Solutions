@@ -1,0 +1,31 @@
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+//initialize two set ->for row and for column so as to keep record of the value where our matrix value is zero.
+        set<int>row;
+        set<int>col;
+//loop over matrix to find out where your matrix is 0, and keep record of rows and columns
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[i].size();j++)
+            {
+                if(matrix[i][j]==0)
+                {
+                    row.insert(i);
+                    col.insert(j);
+                }
+            }
+        }
+//loop over row and column set respectively and change each value to 0 
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(auto x:col)
+                matrix[i][x]=0;
+        }
+        for(auto x:row)
+        {
+            for(int i=0;i<matrix[x].size();i++)
+                matrix[x][i]=0;
+        }
+    }
+};
