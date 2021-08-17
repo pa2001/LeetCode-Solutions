@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    /*
+Logic:you need to have strictly increasing sequence , so just do what we did in sorting->
+you need to compare each element with the max_till_now->
+if it is smaller then your sequence is not strictly increasing , so you need not to count that value
+else if it is greater than you sequence that you this must be included as it is forming strictly increasing 
+sequence.
+    Rest is just recursion...
+    */
+    //inialize counter to count strictly increasing values
+    int count=0;
+    void solve(TreeNode* root,int max_till_now)
+    {
+        //base case
+        if(root==NULL)
+            return;
+        //if current value of root is forming strictly increasing sequence , add it to your ans
+        //i.e increase counter
+        if(root->val>=max_till_now)
+           count++;
+        //call function on the left subtree
+            solve(root->left,max(max_till_now,root->val));
+        //call function on the right subtree
+            solve(root->right,max(max_till_now,root->val));
+    }
+    int goodNodes(TreeNode* root) {
+        //initialize max_till_now to the root->val as it is the starting point
+        int max_till_now=root->val;
+        //call function
+        solve(root,max_till_now);
+        //return count
+        return count;
+    }
+};
