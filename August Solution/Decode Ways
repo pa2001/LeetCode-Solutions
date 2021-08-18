@@ -1,0 +1,32 @@
+class Solution {
+public:
+/*
+Logic:In the whole string you need to 2 things:-
+1)select string with starting character as i-1th character -->if greater than 0 then this could be decoded(a to i)
+2)select string with second letter as i-1th character --->if greater than 9 and less than 27 then this could be decoded(j to z)
+*/
+    int numDecodings(string s) {
+        int n=s.size();
+        //initialize dp to memorise.
+        vector<int>dp(n+1,0);
+        //base case
+        dp[0]=1;
+        dp[1]=(s[0]=='0')?0:1;
+        //select the string in which ith string is 1st character / 2nd character
+        for(int i=2;i<=n;i++)
+        {
+            //i-1th character as 1st character
+            string o=s.substr(i-1,i);
+            //i-1th character as 2nd character
+            string t=s.substr(i-2,i);
+            int one=o[0]-'0';
+            int two=(t[0]-'0')*10+(t[1]-'0');
+            //if one is 0-->no string start from 0 so leave it else add to previously calculated one
+            if(one>=1)
+                dp[i]+=dp[i-1];
+            //if two is 9 surely 1st character will be 0 so leave it  or if it it greater than 27 then also leave it as no letter will be decoded as 27.
+            if(two>=10&&two<=26)
+                dp[i]+=dp[i-2];
+        }return dp[n];
+    }
+};
