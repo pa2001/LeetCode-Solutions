@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    /*
+Logic:you need to first calculate sum of whole tree.
+so i calculated using bfs you can do dfs also.
+Now start partitioning, so if find sum of subtree after partition and multiply it with left tree sum i.e complement of curr sum.
+compare every multiplication value by using max function
+return max product
+    */
+    //test cases are very large so declare long long and mod
+    #define ll long long
+    int mod = (int)1e9+7;  
+    ll sum=0,res=INT_MIN;
+    ll solve(TreeNode* root){
+        //base case
+        if(!root) 
+            return 0;
+        //recur for left subtree
+        ll left = solve(root->left);
+        //recur for right subtree
+        ll right = solve(root->right);
+        //calculate curr sum
+        ll curr = left+right+root->val;
+        //compare with previous curr sum
+        res = std::max(((sum-curr)*curr),res);
+        return curr;
+    }    
+    int maxProduct(TreeNode* root) {
+        //calculate sum using bfs
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty())
+        {
+            TreeNode* p=q.front();
+            q.pop();
+            sum+=p->val;
+            if(p->left)
+                q.push(p->left);
+            if(p->right)
+                q.push(p->right);
+        }
+        //call solve function to find max product
+        solve(root);
+        return res%mod;
+    }
+};
